@@ -13,46 +13,79 @@ client = OpenAI(
   api_key=os.environ.get("OPENAI_API_KEY"),  # this is also the default, it can be omitted
 )
 
-# openai.api_key = os.environ.get("OPENAI_API_KEY")
-# Title for the web app
-st.title("Welcome to Mimi Hostel")
-
-# Hiển thị logo và tên
-st.markdown("""
-    <div style="display: flex; align-items: center;">
-        <span style="font-size: 24px;">Am</span>
-        <h1 style="margin-left: 10px; font-weight: bold; color: #EDACB1;">MiMi</h1>
-        <span style="font-size: 24px;">Bot</span>
-    </div>
-""", unsafe_allow_html=True)
-st.image("cat.png", width=200)
-st.write("How may I help you!")
-
 # CSS tùy chỉnh để tạo kiểu cho nút
 st.markdown("""
     <style>
-    div.stButton > button:first-child {
+    .title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px
+    }
+    .title h1 {
+        margin-left: 10px; 
+        font-weight: bold; 
+        color: #EDACB1;
+    }
+    .st-key-logo-container .element-container > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        text-align: center;
+    }
+    .st-key-logo-container .element-container > div > div {
+        margin: auto;
+    }
+    .stHeading {
+        text-align: center;
+    }
+    .stFormSubmitButton > button,
+    .stButton > button {
         background-color: #EDACB1;  /* Màu hồng pastel */
         color: black;
         font-size: 16px;
         border-radius: 10px;
         padding: 10px 20px;
+        transition: .3s ease
     }
-    div.stButton > button:first-child:hover {
+    .stFormSubmitButton > button:hover,
+    .stButton > button:hover{
         background-color: #EF6F82;  /* Hồng pastel đậm hơn một chút */
         color: white;
     }
     </style>
 """, unsafe_allow_html=True)
 
+# Hiển thị input và nút gửi
+with st.container():
+    # Title for the web app
+    st.title("Welcome to Mimi Hostel")
+
+    # Hiển thị logo và tên
+    st.markdown("""
+        <div class="title">
+            Am <h1>MiMi</h1> Bot
+        </div>
+    """, unsafe_allow_html=True)
+    with st.container(key="logo-container"):
+        st.image("cat.png", width=200)
+        st.write("How may I help you!")
+
+
+    with st.form("my_form", border=False):
+        user_input = st.text_input(
+            label="Chat with me:",
+            placeholder="Type your question here...",
+            key="user_input",
+            help="Enter your message here."
+        )
+        send_button = st.form_submit_button(label="Send")
+
+
 # Xử lý lịch sử hội thoại
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": "You are a helpful assistant of Mimi hostel for cat."}]
-
-# Hiển thị input và nút gửi
-with st.container():
-    user_input = st.text_input("Chat with me:", placeholder="Type your question here...", key="user_input", help="Enter your message here.")
-    send_button = st.button("Send")
 
 # Hàm dịch câu trả lời của bot sang ngôn ngữ người dùng
 def translate_text(text, target_lang):
@@ -110,7 +143,7 @@ if send_button:
                     "role": "assistant",
                     "content": "Our phone number is: 010-8040-1314 and our email: mimihostel@gmail.com"
                 })
-            
+
 
             # Gửi yêu cầu đến OpenAI API để lấy phản hồi
             response = client.chat.completions.create(
