@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  python-web:
+    container_name: python-web
+    build: .
+#    command: python main.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/src
+    ports:
+      - 8000:8000
+    networks:
+      - mimihostel
+
+networks:
+  mimihostel:
