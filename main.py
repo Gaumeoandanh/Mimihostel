@@ -1,13 +1,19 @@
 import streamlit as st
-import openai
+import os
+from openai import OpenAI
 from langdetect import detect
 from googletrans import Translator
-import os
+from dotenv import load_dotenv
 
+# Load environment variables from .env file (located in the same directory)
+load_dotenv()
 
 # Set your OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(
+  api_key=os.environ.get("OPENAI_API_KEY"),  # this is also the default, it can be omitted
+)
 
+# openai.api_key = os.environ.get("OPENAI_API_KEY")
 # Title for the web app
 st.title("Welcome to Mimi Hostel")
 
@@ -107,13 +113,12 @@ if send_button:
             
 
             # Gửi yêu cầu đến OpenAI API để lấy phản hồi
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=st.session_state.messages
             )
-
             # Lấy phản hồi từ API và hiển thị
-            bot_reply = response["choices"][0]["message"]["content"]
+            bot_reply = response.choices[0].message.content
             st.session_state.messages.append({"role": "assistant", "content": bot_reply})
 
             # Hiển thị phản hồi từ bot
