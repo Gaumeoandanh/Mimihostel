@@ -1,0 +1,16 @@
+[client]
+showSidebarNavigation = false
+toolbarMode = "viewer" # auto | viewer
+showErrorDetails = true
+
+#[theme]
+#backgroundColor = "#ffe3b1"
+#primaryColor  = "#ffe3b1"
+
+[server]
+headless = true
+runOnSave = true
+fileWatcherType = "auto"
+
+[runner]
+fastReruns = true
