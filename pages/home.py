@@ -1,4 +1,5 @@
 import streamlit as st
+from db.datasource import Datasource
 
 st.title("Welcome to Mimi Hotel")
 # Hiển thị logo và tên
@@ -19,3 +20,5 @@ if st.button('Check Your Mimi Reservation', use_container_width=True):
 
 if st.button('Chat with me', use_container_width=True):
     st.switch_page(page="pages/chat.py")
+
+datasource = Datasource()

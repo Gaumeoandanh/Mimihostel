@@ -3,4 +3,5 @@ openai
 langdetect
 googletrans
 python-dotenv
-#
+langchain
+st-gsheets-connection
