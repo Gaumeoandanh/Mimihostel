@@ -10,67 +10,90 @@ if st.button("Back"):
 
 container = st.empty()
 
+def validate(form_data):
+    """Validates the booking form data.
+
+    Args:
+        form_data (dict): A dictionary containing the form data.
+
+    Returns:
+        dict: A dictionary containing error and warning messages. The dictionary has the following structure:
+        {
+            "error_messages": {},
+            "warning_messages": {}
+        }
+    """
+
+    error_messages = {
+        'email': '',
+        'name': '',
+        'cat_name': '',
+        'cat_age': '',
+        'cat_breed': '',
+        'date': '',
+        'time': '',
+        'note': ''
+    }
+
+    if form_data['email'] == "":
+        error_messages['email'] = 'Please enter your email address'
+
+    if form_data['name'] == "":
+        error_messages['name'] = 'Please enter your name'
+
+    if form_data['phone_number'] == "":
+        error_messages['phone_number'] = 'Please enter your phone number'
+
+    if form_data['cat_name'] == "":
+        error_messages['cat_name'] = "Please enter your cat's name"
+
+    if form_data['date'] == "":
+        error_messages['date'] = "Please enter day representation"
+
+    return {
+        "error_messages": error_messages,
+        "warning_messages": {},
+    }
 
 def booking():
     with container.container():
         st.title("Booking Service")
-        error_messages = {
-            'email': '',
-            'name': '',
-            'cat_name': '',
-            'cat_age': '',
-            'cat_breed': '',
-            'date': '',
-            'time': '',
-            'note': ''
+        form_data = {
+            'email': st.text_input("Your Email (*)"),
+            'error_email': st.empty(),
+
+            'phone_number': st.text_input("Your Phone Number (*)"),
+            'error_phone_number': st.empty(),
+
+            'name': st.text_input("Your Name (*)"),
+            'error_name': st.empty(),
+
+            'cat_name': st.text_input("Cat's Name (*)"),
+            'error_cat_name': st.empty(),
+
+            'cat_age': st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f"),
+            'cat_breed': st.text_input("Cat's Breed"),
+
+            'date': st.date_input("Date  (*)"),
+            'error_date': st.empty(),
+
+            'time': st.time_input("Time"),
+            'warning_time': st.empty(),
+
+            'note': st.text_area("Note")
         }
 
-        email = st.text_input("Your Email (*)")
-        error_messages.email = st.empty()
-
-        name = st.text_input("Your Name (*)")
-        error_messages.name = st.empty()
-
-        cat_name = st.text_input("Cat's Name (*)")
-        error_messages.cat_name = st.empty()
-
-        cat_age = st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f")
-        error_messages.cat_age = st.empty()
-
-        cat_breed = st.text_input("Cat's Breed")
-        error_messages.cat_breed = st.empty()
-
-        date = st.date_input("Date  (*)")
-        error_messages.date = st.empty()
-
-        time = st.time_input("Time")
-        error_messages.time = st.empty()
-
-        note = st.text_area("Note")
-        error_messages.note = st.empty()
+        validation = validate(form_data)
 
         submit = st.button("Submit", use_container_width=True)
 
     if submit:
-        # Validate
-        valid = True
-        if email == "":
-            error_messages.email.error('Please enter your email address')
-            valid = False
-
-        if name == "":
-            error_messages.name.error('Please enter your name')
-            valid = False
-
-        if cat_name == "":
-            error_messages.cat_name.error("Please enter your cat's name")
-            valid = False
-
-        if date == "":
-            error_messages.date.error("Please enter day representation")
-            valid = False
-
+        # Validation
+        valid = all(value == "" for value in validation['error_messages'].values())
         if not valid:
+            for field, error in validation['error_messages'].items():
+                if error != "":
+                    form_data[f"error_{field}"].error(error)
             st.stop()
 
         otp = ''.join(random.choices('0123456789', k=6))
@@ -79,15 +102,15 @@ def booking():
         booking_number = generate_booking_number()
         booking_data = {
             "booking_number": booking_number,
-            "contact": phone_number,
-            "email": email,
-            "name": name,
-            "cat_name": cat_name,
-            "cat_age": cat_age,
-            "cat_breed": cat_breed,
-            "date": str(date),
-            "time": str(time),
-            "note": note,
+            "phone_number": form_data['phone_number'],
+            "email": form_data['email'],
+            "name": form_data['name'],
+            "cat_name": form_data['cat_name'],
+            "cat_age": form_data['cat_age'],
+            "cat_breed": form_data['cat_breed'],
+            "date": form_data['str(date)'],
+            "time": form_data['str(time)'],
+            "note": form_data['note'],
             "otp": otp,
             "status": "pending"
         }
@@ -128,7 +151,7 @@ def booking_confirm(booking_number):
         else:
             st.error("Invalid booking number")
 
-booking_number = st.query_params.get('booking-number')
+booking_number = st.query_params.get('booking-number', None)
 if booking_number:
     booking_confirm(booking_number)
 else:
