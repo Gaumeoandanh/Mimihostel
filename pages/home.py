@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Welcome to Mimi Hostel")
+st.title("Welcome to Mimi Hotel")
 # Hiển thị logo và tên
 st.markdown("""
     <div class="title">
@@ -14,7 +14,7 @@ with st.container(key="logo-container"):
 if st.button('Booking', use_container_width=True):
     st.switch_page(page='pages/booking.py')
 
-if st.button('Check Your Mimi', use_container_width=True):
+if st.button('Check Your Mimi Reservation', use_container_width=True):
     st.switch_page(page="pages/check_in.py")
 
 if st.button('Chat with me', use_container_width=True):

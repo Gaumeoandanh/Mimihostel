@@ -31,7 +31,7 @@ with st.container():
 
 # Xử lý lịch sử hội thoại
 if "messages" not in st.session_state:
-    st.session_state.messages = [{"role": "system", "content": "You are a helpful assistant of Mimi hostel for cat."}]
+    st.session_state.messages = [{"role": "system", "content": "You are a helpful assistant of Mimi hotel for cat with an IQ of 120."}]
 
 # Hàm dịch câu trả lời của bot sang ngôn ngữ người dùng
 def translate_text(text, target_lang):
@@ -56,7 +56,8 @@ if send_button:
                     This hotel provides boarding and premium care services for cats while their owners are away. 
                     Respond in a friendly, concise, and helpful manner. 
                     If asked about services, provide a brief explanation and its price:
-                    Accommodation Packages:Standard Room: A private, comfortable space with a cozy bed, scratching post, and daily meals.Price: 20,000 KRW per night.
+                    Accommodation Packages:
+                    Standard Room: A private, comfortable space with a cozy bed, scratching post, and daily meals.Price: 20,000 KRW per night.
                     Deluxe Room:Spacious private room with extra toys, a climbing tower, and a premium bed.Price: 35,000 KRW per night
                     VIP Suite:Luxurious suite with panoramic window views, personalized toys, daily grooming, and premium meals.Price: 60,000 KRW per night.
                     Additional Services: Grooming:Includes brushing, nail trimming, and basic cleaning.Price: 15,000 KRW per session.

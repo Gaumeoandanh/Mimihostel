@@ -23,7 +23,7 @@ if st.button("Get OTP", use_container_width=True):
     else:
         st.error("Invalid booking number")
 
-if st.button("Check In", use_container_width=True):
+if st.button("Check", use_container_width=True):
     bookings = load_booking_data()
     booking = next((b for b in bookings if b['booking_number'] == booking_number), None)
     if booking:
