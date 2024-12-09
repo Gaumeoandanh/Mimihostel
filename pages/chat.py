@@ -52,7 +52,7 @@ if send_button:
                 st.session_state.messages.insert(0, {
                     "role": "system",
                     "content": """
-                    You are a friendly assistant at a cat hotel named Mimi. 
+                    You are a friendly and smart assistant at a cat hotel named Mimi with an IQ of 120 . 
                     This hotel provides boarding and premium care services for cats while their owners are away. 
                     Respond in a friendly, concise, and helpful manner. 
                     If asked about services, provide a brief explanation and its price:
@@ -83,11 +83,27 @@ if send_button:
                 #(huấn luyện)
                 st.session_state.messages.append({
                     "role": "user",
+                    "content": "Asking about menu or services"
+                })
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": "we have Accommodation Packages and another services such as Grooming, Health checking or Training while accomodating. If you want to view our menu, please click the menu button at the top :D "
+                })
+                st.session_state.messages.append({
+                    "role": "user",
                     "content": "Can you give me your contact?"
                 })
                 st.session_state.messages.append({
                     "role": "assistant",
                     "content": "Our phone number is: 010-8040-1314 and our email: mimihostel@gmail.com"
+                })
+                st.session_state.messages.append({
+                    "role": "user",
+                    "content": "How can I book a room for cat?"
+                })
+                st.session_state.messages.append({
+                    "role": "assistant",
+                    "content": "You can book a room on this web by clicking the booking button on the homepage :D"
                 })
 
 
