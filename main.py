@@ -6,7 +6,7 @@ def main():
     st.markdown("""
         <style>
         .stMain {
-            background: #6e6d6b;
+            background: #A888B5;
         }
         .stAppHeader {
             background-color: transparent
@@ -20,7 +20,7 @@ def main():
         .title h1 {
             margin-left: 10px; 
             font-weight: bold; 
-            color: #EDACB1;
+            color: #EFB6C8;
         }
         .st-key-logo-container .element-container > div {
             display: flex;
@@ -37,7 +37,7 @@ def main():
         }
         .stFormSubmitButton > button,
         .stButton > button {
-            background-color: #EDACB1;  /* Màu hồng pastel */
+            background-color: #EFB6C8;  /* Màu hồng pastel */
             color: white;
             font-size: 16px;
             border-radius: 10px;
