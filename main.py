@@ -6,7 +6,7 @@ def main():
     st.markdown("""
         <style>
         .stMain {
-            background: #fbeed8;
+            background: #6e6d6b;
         }
         .stAppHeader {
             background-color: transparent

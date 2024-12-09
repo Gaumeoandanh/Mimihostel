@@ -8,11 +8,27 @@ from functions import load_booking_data
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
 
+st.markdown(
+    """
+    <style>
+    .stTextInput > div > input {
+        background-color: white; /* Màu nền trắng */
+        color: black; /* Màu chữ đen */
+        border: 1px solid #ccc; /* Viền nhẹ */
+        padding: 8px; /* Tăng kích thước padding */
+        border-radius: 5px; /* Bo tròn góc */
+    }
+    </style>
+    """,
+    ## mé viết vầy mà code hông chạy T.T
+    unsafe_allow_html=True
+)
 container = st.empty()
 def booking():
     with container.container():
         st.title("Booking Service")
         email = st.text_input("Your Email")
+        contact = st.text_input("Your Phone Number")
         name = st.text_input("Your Name")
         cat_name = st.text_input("Cat's Name")
         cat_age = st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f")
@@ -30,6 +46,7 @@ def booking():
         booking_number = generate_booking_number()
         booking_data = {
             "booking_number": booking_number,
+            "contact": phone_number,
             "email": email,
             "name": name,
             "cat_name": cat_name,
