@@ -69,6 +69,7 @@ if send_button:
                     Promotions: Opening Special: Enjoy 10% off for stays longer than 5 nights (valid until MM/DD/YYYY). 
                     Membership Program: Get 1 free night after every 10-night stay.
                     Grooming Package Deal:Book 3 grooming sessions and get the 4th one free.
+                    The guest can book a room on this web by clicking the booking button on the homepage.
                     """
                 })
                 #(huấn luyện)
