@@ -4,6 +4,7 @@ from functions import send_otp_email
 from functions import generate_booking_number
 from functions import save_booking_data
 from functions import load_booking_data
+from datetime import time  # Import time từ datetime
 
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
@@ -33,8 +34,18 @@ def booking():
         cat_name = st.text_input("Cat's Name")
         cat_age = st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f")
         cat_breed = st.text_input("Cat's Breed")
+         # Add room type selection
+        room_types = ["Standard", "Deluxe", "VIP"]
+        room_type = st.selectbox("Select Room Type", options=room_types)
         date = st.date_input("Date")
-        time = st.time_input("Time (optional)")
+        
+        # Define the time input field
+        time_input = st.time_input("Time (optional)")
+
+        # Time validation
+        if time_input and (time_input >= time(20, 0) or time_input < time(8, 0)):
+            st.warning("The time you plan to arrive is out of our operating time so we will process your self-check-in. Please refer to the self-check-in guide :D")
+
         note = st.text_area("Note (optional)")
 
         submit = st.button("Submit", use_container_width=True)
@@ -52,6 +63,7 @@ def booking():
             "cat_name": cat_name,
             "cat_age": cat_age,
             "cat_breed": cat_breed,
+            "room_type": room_type,
             "date": str(date),
             "time": str(time),
             "note": note,
