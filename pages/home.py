@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.title("Welcome to Mimi Hostel")
+st.title("Welcome to Mimi Hotel")
 # Hiển thị logo và tên
 st.markdown("""
     <div class="title">
