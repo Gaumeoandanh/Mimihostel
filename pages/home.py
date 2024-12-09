@@ -2,14 +2,8 @@ import streamlit as st
 
 st.title("Welcome to Mimi Hotel")
 # Hiển thị logo và tên
-st.markdown("""
-    <div class="title">
-        Am <h1>MiMi</h1> Bot
-    </div>
-""", unsafe_allow_html=True)
 with st.container(key="logo-container"):
-    st.image("assets/cat.png", width=200)
-    st.write("How may I help you!")
+    st.image("assets/mainlogo.png", width=400)
 
 if st.button('Booking', use_container_width=True):
     st.switch_page(page='pages/booking.py')
