@@ -74,9 +74,15 @@ def booking():
             'cat_age': st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f"),
             'cat_breed': st.text_input("Cat's Breed"),
 
+
+         	# Add room type selection
+	        room_type = st.selectbox("Select Room Type", options=["Standard", "Deluxe", "VIP"])
+
             'date': st.date_input("Date  (*)"),
             'error_date': st.empty(),
 
+			
+        	# Define the time input field
             'time': st.time_input("Time"),
             'warning_time': st.empty(),
 
@@ -108,6 +114,7 @@ def booking():
             "cat_name": form_data['cat_name'],
             "cat_age": form_data['cat_age'],
             "cat_breed": form_data['cat_breed'],
+            "room_type": form_data['room_type'],
             "date": form_data['str(date)'],
             "time": form_data['str(time)'],
             "note": form_data['note'],
