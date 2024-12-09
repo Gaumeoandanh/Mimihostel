@@ -60,7 +60,7 @@ headless = true
 runOnSave = true
 
 [theme]
-primaryColor="#ff9090"
-backgroundColor="#ffffff"
-secondaryBackgroundColor="#f9f9f9"
+primaryColor="#EFB6C8"
+backgroundColor="#A888B5"
+secondaryBackgroundColor="#ffffff"
 textColor="#2e2f39"

@@ -1,5 +1,6 @@
 import streamlit as st
 import random
+from datetime import time  # Import time từ datetime
 from functions import send_otp_email
 from functions import generate_booking_number
 from functions import save_booking_data
@@ -30,10 +31,11 @@ def validate(form_data):
         'cat_name': '',
         'cat_age': '',
         'cat_breed': '',
-        'date': '',
-        'time': '',
+        'checkin_date': '',
+        'checkin_time': '',
         'note': ''
     }
+    warning_messages = {}
 
     if form_data['email'] == "":
         error_messages['email'] = 'Please enter your email address'
@@ -47,12 +49,17 @@ def validate(form_data):
     if form_data['cat_name'] == "":
         error_messages['cat_name'] = "Please enter your cat's name"
 
-    if form_data['date'] == "":
-        error_messages['date'] = "Please enter day representation"
+    if form_data['checkin_date'] == "":
+        error_messages['checkin_date'] = "Please enter day representation"
+
+    # Time validation
+    if form_data['checkin_time'] and (form_data['checkin_time'] >= time(20, 0) or form_data['checkin_time'] < time(8, 0)):
+        warning_messages['checkin_time'] = "The time you plan to arrive is out of our operating time so we will process your self-check-in. Please refer to the self-check-in guide :D"
+
 
     return {
         "error_messages": error_messages,
-        "warning_messages": {},
+        "warning_messages": warning_messages,
     }
 
 def booking():
@@ -71,30 +78,31 @@ def booking():
             'cat_name': st.text_input("Cat's Name (*)"),
             'error_cat_name': st.empty(),
 
-            'cat_age': st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f"),
+            'cat_age': st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f", value=1.0),
             'cat_breed': st.text_input("Cat's Breed"),
 
-
          	# Add room type selection
-	        room_type = st.selectbox("Select Room Type", options=["Standard", "Deluxe", "VIP"])
+	        'room_type': st.selectbox("Select Room Type", options=["Standard", "Deluxe", "VIP"]),
 
-            'date': st.date_input("Date  (*)"),
-            'error_date': st.empty(),
+            'checkin_date': st.date_input("Check-In Date  (*)"),
+            'error_checkin_date': st.empty(),
 
-			
         	# Define the time input field
-            'time': st.time_input("Time"),
-            'warning_time': st.empty(),
+            'checkin_time': st.time_input("Check-In Time"),
+            'warning_checkin_time': st.empty(),
 
             'note': st.text_area("Note")
         }
 
         validation = validate(form_data)
-
         submit = st.button("Submit", use_container_width=True)
 
     if submit:
         # Validation
+        for field, warning in validation['warning_messages'].items():
+            if warning != "":
+                form_data[f"warning_{field}"].warning(warning)
+
         valid = all(value == "" for value in validation['error_messages'].values())
         if not valid:
             for field, error in validation['error_messages'].items():
@@ -115,8 +123,8 @@ def booking():
             "cat_age": form_data['cat_age'],
             "cat_breed": form_data['cat_breed'],
             "room_type": form_data['room_type'],
-            "date": form_data['str(date)'],
-            "time": form_data['str(time)'],
+            "checkin_date": str(form_data['checkin_date']),
+            "checkin_time": str(form_data['checkin_time']),
             "note": form_data['note'],
             "otp": otp,
             "status": "pending"
