@@ -79,6 +79,7 @@ def booking():
         booking_number = generate_booking_number()
         booking_data = {
             "booking_number": booking_number,
+            "contact": phone_number,
             "email": email,
             "name": name,
             "cat_name": cat_name,
