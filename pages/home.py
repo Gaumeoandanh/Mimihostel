@@ -8,7 +8,7 @@ st.markdown("""
     </div>
 """, unsafe_allow_html=True)
 with st.container(key="logo-container"):
-    st.image("cat.png", width=200)
+    st.image("assets/cat.png", width=200)
     st.write("How may I help you!")
 
 if st.button('Booking', use_container_width=True):

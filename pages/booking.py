@@ -9,21 +9,70 @@ if st.button("Back"):
     st.switch_page(page='pages/home.py')
 
 container = st.empty()
+
+
 def booking():
     with container.container():
         st.title("Booking Service")
-        email = st.text_input("Your Email")
-        name = st.text_input("Your Name")
-        cat_name = st.text_input("Cat's Name")
+        error_messages = {
+            'email': '',
+            'name': '',
+            'cat_name': '',
+            'cat_age': '',
+            'cat_breed': '',
+            'date': '',
+            'time': '',
+            'note': ''
+        }
+
+        email = st.text_input("Your Email (*)")
+        error_messages.email = st.empty()
+
+        name = st.text_input("Your Name (*)")
+        error_messages.name = st.empty()
+
+        cat_name = st.text_input("Cat's Name (*)")
+        error_messages.cat_name = st.empty()
+
         cat_age = st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f")
+        error_messages.cat_age = st.empty()
+
         cat_breed = st.text_input("Cat's Breed")
-        date = st.date_input("Date")
-        time = st.time_input("Time (optional)")
-        note = st.text_area("Note (optional)")
+        error_messages.cat_breed = st.empty()
+
+        date = st.date_input("Date  (*)")
+        error_messages.date = st.empty()
+
+        time = st.time_input("Time")
+        error_messages.time = st.empty()
+
+        note = st.text_area("Note")
+        error_messages.note = st.empty()
 
         submit = st.button("Submit", use_container_width=True)
 
     if submit:
+        # Validate
+        valid = True
+        if email == "":
+            error_messages.email.error('Please enter your email address')
+            valid = False
+
+        if name == "":
+            error_messages.name.error('Please enter your name')
+            valid = False
+
+        if cat_name == "":
+            error_messages.cat_name.error("Please enter your cat's name")
+            valid = False
+
+        if date == "":
+            error_messages.date.error("Please enter day representation")
+            valid = False
+
+        if not valid:
+            st.stop()
+
         otp = ''.join(random.choices('0123456789', k=6))
         # send_otp_email(email, otp)
 
