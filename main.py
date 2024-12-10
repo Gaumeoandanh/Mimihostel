@@ -1,9 +1,9 @@
 import streamlit as st
-from assets.style import render_css
 def main():
     st.set_page_config(layout="centered")
 
-    render_css()
+    with open("assets/style.css") as css:
+        st.markdown(f'<style>{css.read()}</style>', unsafe_allow_html=True)
 
     pg = st.navigation([
         st.Page(page='pages/home.py', url_path="/", default=True, title="HomePage"),

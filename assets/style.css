@@ -1,0 +1,125 @@
+/*
+Tớ apply tạm font này nhé,
+https://fonts.google.com/specimen/Sour+Gummy
+*/
+@import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
+html, body, [class*="css"], p, a, span, div {
+    font-family: "Sour Gummy", serif;
+    font-style: normal;
+    font-optical-sizing: auto;
+    font-variation-settings: "wdth" 100;
+}
+
+.stAppHeader {
+    background-color: transparent
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px
+}
+
+.title h1 {
+    margin-left: 10px;
+    font-weight: bold;
+    color: #EFB6C8;
+}
+
+.st-key-logo-container .element-container > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+.st-key-logo-container .element-container > div > div {
+    margin: auto;
+}
+
+.stHeading {
+    text-align: center;
+}
+
+.stFormSubmitButton button,
+.stButton button {
+    background-color: #EFB6C8; /* Màu hồng pastel */
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+    border-radius: 2rem;
+    padding: .5rem 1rem;
+    transition: .3s ease;
+}
+
+.stFormSubmitButton button:hover,
+.stFormSubmitButton button:focus,
+.stFormSubmitButton button:active,
+.stButton button:hover,
+.stButton button:focus,
+.stButton button:active {
+    background-color: #EF6F82; /* Hồng pastel đậm hơn một chút */
+    color: white;
+}
+
+.st-key-button-service-booking button {
+    background-color: #079c64;
+    color: #190038;
+}
+.st-key-button-service-booking button:hover,
+.st-key-button-service-booking button:focus,
+.st-key-button-service-booking button:active {
+    background-color: #056541;
+    color: #190038;
+}
+
+.st-key-button-service-check-in button {
+    background-color: #f89838;
+    color: #190038;
+}
+.st-key-button-service-check-in button:hover,
+.st-key-button-service-check-in button:focus,
+.st-key-button-service-check-in button:active {
+    background-color: #d77819;
+    color: #190038;
+}
+
+.st-key-button-service-chat button {
+    background-color: #00b1d7;
+    color: #190038;
+}
+.st-key-button-service-chat button:hover,
+.st-key-button-service-chat button:focus,
+.st-key-button-service-chat button:active {
+    background-color: #0090af;
+    color: #190038;
+}
+
+.stAlert .stAlertContainer.st-g9 {
+    /* Màu thông báo error */
+    background-color: rgb(238, 128, 128);
+}
+
+.stAlert .stAlertContainer.st-gm {
+    /* Màu thông báo warning */
+    /* background-color: rgb(149, 144, 109);*/
+}
+
+.stAlert .stAlertContainer.st-j5 {
+    /* Màu thông báo success */
+    background-color: rgb(70, 255, 129);
+}
+
+[data-baseweb="input"],
+[data-baseweb="select"] > div,
+[data-testid="stNumberInputContainer"],
+[data-baseweb="textarea"] {
+    /*background-color: white; !* Màu nền trắng -- Already config in .streamlit/config.toml *!*/
+    /*color: black; !* Màu chữ đen - Already config in .streamlit/config.toml *!*/
+    border: 1px solid #ccc !important; /* Viền nhẹ */
+    /*padding: .375rem; !* Tăng kích thước padding *!*/
+    border-radius: .5rem; /* Bo tròn góc */
+}
