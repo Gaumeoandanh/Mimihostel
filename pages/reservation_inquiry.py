@@ -1,46 +1,9 @@
 import streamlit as st
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-from dotenv import load_dotenv
-import os
-import json
-from google.oauth2 import service_account
+
+from functions import connect_to_google_sheet
 
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
-
-# Function to connect to Google Sheets
-def connect_to_google_sheet():
-    # Define the scope
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
-    # Load environment variables from .env file (located in the same directory)
-    load_dotenv()
-
-    # Load the service account key from the environment variable
-    # service_account_info = os.environ.get("GOOGLE_SERVICE_ACCOUNT_KEY")
-    service_account_info = str(st.secrets["GOOGLE_SERVICE_ACCOUNT_KEY"])
-    if not service_account_info:
-        raise ValueError("Environment variable GOOGLE_SERVICE_ACCOUNT_KEY is not set.")
-
-    # Convert all single quotes to double quotes in the service account info
-    service_account_info = service_account_info.replace("'", '"')
-    
-    # Parse the JSON string
-    # service_account_json = json.loads(service_account_info)
-    try:
-        service_account_json = json.loads(service_account_info)
-    except Exception as e:
-        st.error(f"Huhu! An error occurred: {e}")
-
-    # Authenticate using the service account information
-    #credentials = ServiceAccountCredentials.from_json_keyfile_dict(service_account_json, scope)
-    credentials = service_account.Credentials.from_service_account_info(service_account_json, scopes=scope)
-    client = gspread.authorize(credentials)
-
-    # Open the spreadsheet by URL
-    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1vZwEGVZnsDYtBGGfoOrN23qSjulRfrzWA4dmhAF1Q1M/edit?usp=sharing")
-    return sheet.worksheet("Booking")  # Open the Booking sheet
 
 # Function to find a booking by Booking ID and Name
 def find_booking(booking_id, name):

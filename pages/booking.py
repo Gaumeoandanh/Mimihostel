@@ -1,15 +1,10 @@
-import os
-import json
 import streamlit as st
-import gspread
 import re
 import smtplib
 from datetime import time  # Import time từ datetime
-from oauth2client.service_account import ServiceAccountCredentials
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from dotenv import load_dotenv
-
+from functions import connect_to_google_sheet
 
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
@@ -66,32 +61,6 @@ def validate(form_data):
         "error_messages": error_messages,
         "warning_messages": warning_messages,
     }
-
-# Function to connect to Google Sheets
-def connect_to_google_sheet():
-    # Define the scope
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-
-    # Load the service account key from the environment variable
-    # Load environment variables from .env file (located in the same directory)
-    load_dotenv()
-    service_account_info = str(st.secrets["GOOGLE_SERVICE_ACCOUNT_KEY"])
-    if not service_account_info:
-        raise ValueError("Environment variable GOOGLE_SERVICE_ACCOUNT_KEY is not set.")
-
-    # Convert all single quotes to double quotes in the service account info
-    service_account_info = service_account_info.replace("'", '"')
-    
-    # Parse the JSON string
-    service_account_json = json.loads(service_account_info)
-
-    # Authenticate using the service account information
-    credentials = ServiceAccountCredentials._from_parsed_json_keyfile(service_account_json, scope)
-    client = gspread.authorize(credentials)
-
-    # Open the spreadsheet by URL
-    sheet = client.open_by_url("https://docs.google.com/spreadsheets/d/1vZwEGVZnsDYtBGGfoOrN23qSjulRfrzWA4dmhAF1Q1M/edit?usp=sharing")
-    return sheet.worksheet("Booking")  # Open the Booking sheet
 
 # Function to send a confirmation email
 def send_email(to_email, booking_id, name, checkin_date, checkin_time):
@@ -174,7 +143,7 @@ if submitted:
         try:
             # Connect to Google Sheets
             sheet = connect_to_google_sheet()
-            
+
             # Generate a unique booking ID
             row_count = len(sheet.get_all_values())  # Count the current rows
             booking_id = f"BKG-{row_count + 1:04d}"  # Generate ID like "BKG-0001"
@@ -195,6 +164,7 @@ if submitted:
             st.success(f"Your booking has been successfully saved! Booking ID: {booking_id}")
             st.page_link(page='pages/home.py', label="Home")
         except Exception as e:
-            st.error(f"An error occurred: {e}")
+            # st.error(f"An error occurred: {e}")
+            st.write(e)
     else:
         st.warning("Please fill in all required fields (*)!")

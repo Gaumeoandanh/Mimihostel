@@ -1,16 +1,10 @@
 import streamlit as st
-import os
 from openai import OpenAI
-from langdetect import detect
 from google_trans_new import google_translator
-from dotenv import load_dotenv
-
-# Load environment variables from .env file (located in the same directory)
-load_dotenv()
 
 # Set your OpenAI API key
 client = OpenAI(
-  api_key=os.environ.get("OPENAI_API_KEY"),  # this is also the default, it can be omitted
+  api_key=st.secrets.openapi.api_key,  # this is also the default, it can be omitted
 )
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
