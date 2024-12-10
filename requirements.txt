@@ -1,6 +1,8 @@
 streamlit
 openai
+gspread
+oauth2client
 langdetect
-googletrans
+google_trans_new
 python-dotenv
 #

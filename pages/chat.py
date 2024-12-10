@@ -2,7 +2,7 @@ import streamlit as st
 import os
 from openai import OpenAI
 from langdetect import detect
-from googletrans import Translator
+from google_trans_new import google_translator
 from dotenv import load_dotenv
 
 # Load environment variables from .env file (located in the same directory)
@@ -35,7 +35,7 @@ if "messages" not in st.session_state:
 
 # Hàm dịch câu trả lời của bot sang ngôn ngữ người dùng
 def translate_text(text, target_lang):
-    translator = Translator()
+    translator = google_translator()
     translated = translator.translate(text, dest=target_lang)
     return translated.text
 
