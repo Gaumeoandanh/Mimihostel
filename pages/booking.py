@@ -135,10 +135,10 @@ with st.form("booking-form"):
     submitted = st.form_submit_button("Submit", use_container_width=True)
 
 if submitted:
-    if not phone.isdigit() or len(phone) < 10:
-        st.error("Phone number must consist of only digits and be at least 10 digits long.")
-    elif not is_valid_email(email):
+    if not is_valid_email(email):
         st.error("Please enter a valid email address.")
+    elif not phone.isdigit() or len(phone) < 10:
+        st.error("Phone number must consist of only digits and be at least 10 digits long.")
     elif email and phone and name and cat_name and checkin_date:
         try:
             # Connect to Google Sheets
