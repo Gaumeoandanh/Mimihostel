@@ -3,7 +3,7 @@ import streamlit as st
 st.title("Welcome to Mimi Hotel")
 # Hiển thị logo và tên
 with st.container(key="logo-container"):
-    st.image("assets/mainlogo.png", width=400)
+    st.image("assets/logo.png", width=400)
 
 if st.button('Booking', use_container_width=True):
     st.switch_page(page='pages/booking.py')
