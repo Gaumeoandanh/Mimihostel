@@ -1,17 +1,13 @@
 import streamlit as st
-import random
-from functions import load_booking_data, save_booking_data
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from dotenv import load_dotenv
 import os
 import json
 from google.oauth2 import service_account
-import toml
 
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
-
 
 # Function to connect to Google Sheets
 def connect_to_google_sheet():
@@ -58,7 +54,7 @@ def find_booking(booking_id, name):
     return None  # Return None if no match is found
 
 # Streamlit app for the Inquiry Page
-st.title("Reservation Inquiry Service")
+st.title("Reservation Inquiry Service", anchor=False)
 
 # Input form
 with st.form("inquiry_form"):
@@ -66,7 +62,7 @@ with st.form("inquiry_form"):
     name = st.text_input("Your Name (*)")
 
     # Inquiry button
-    inquiry_submitted = st.form_submit_button("Inquiry")
+    inquiry_submitted = st.form_submit_button("Inquiry", use_container_width=True)
 
 if inquiry_submitted:
     if not booking_id or not name:

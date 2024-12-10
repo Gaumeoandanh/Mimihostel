@@ -2,11 +2,12 @@ import os
 import json
 import streamlit as st
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+import re
 import smtplib
+from datetime import time  # Import time từ datetime
+from oauth2client.service_account import ServiceAccountCredentials
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import re
 from dotenv import load_dotenv
 
 
@@ -137,29 +138,32 @@ def is_valid_email(email):
     return re.match(email_regex, email)
 
 # Streamlit app
-st.title("Cat Boarding Service Booking Form")
+st.title("Cat Boarding Service Booking Form", anchor=False)
 
 # Input form
-with st.form("booking_form"):
+with st.form("booking-form"):
     email = st.text_input("Your Email (*)")
     phone = st.text_input("Your Phone Number (*)")
     # Remove spaces and non-digit characters
     phone = ''.join(filter(str.isdigit, phone))
     # Validate phone number length
-    if len(phone) < 10:
+    if phone and len(phone) < 10:
         st.warning("Phone number must be at least 10 digits long.")
 
     name = st.text_input("Your Name (*)")
     cat_name = st.text_input("Cat's Name (*)")
-    cat_age = st.number_input("Cat's Age", min_value=0.0, step=0.1)
+    cat_age = st.number_input("Cat's Age", step=0.1, min_value=0.1, format="%0.1f", value=1.0)
     cat_breed = st.text_input("Cat's Breed")
-    room_type = st.selectbox("Select Room Type", ["Standard", "Deluxe", "Premium"])
+    room_type = st.selectbox("Select Room Type", ["Standard", "Deluxe", "VIP"])
     checkin_date = st.date_input("Check-In Date (*)")
-    checkin_time = st.time_input("Check-In Time")
-    note = st.text_area("Note")
 
+    checkin_time = st.time_input("Check-In Time")
+    if checkin_time and (checkin_time >= time(20, 0) or checkin_time < time(8, 0)):
+        st.warning("The time you plan to arrive is out of our operating time so we will process your self-check-in. Please refer to the self-check-in guide :D")
+
+    note = st.text_area("Note")
     # Submit button
-    submitted = st.form_submit_button("Submit")
+    submitted = st.form_submit_button("Submit", use_container_width=True)
 
 if submitted:
     if not phone.isdigit() or len(phone) < 10:

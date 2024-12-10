@@ -15,7 +15,7 @@ client = OpenAI(
 if st.button("Back"):
     st.switch_page(page='pages/home.py')
 
-st.title("Chat with me")
+st.title("Chat with me", anchor=False)
 
 # Hiển thị input và nút gửi
 with st.container():

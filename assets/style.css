@@ -21,10 +21,13 @@ html, body, [class*="css"], p, a, span, div {
     font-size: 24px
 }
 
-.title h1 {
-    margin-left: 10px;
+.title .heading {
+    margin: 0 1rem;
     font-weight: bold;
     color: #EFB6C8;
+    font-size: 2.75rem;
+    padding: 1.25rem 0 1rem;
+    line-height: 1.2;
 }
 
 .st-key-logo-container .element-container > div {
@@ -113,13 +116,9 @@ html, body, [class*="css"], p, a, span, div {
     background-color: rgb(70, 255, 129);
 }
 
-[data-baseweb="input"],
+.stTextInput [data-baseweb="input"],
 [data-baseweb="select"] > div,
-[data-testid="stNumberInputContainer"],
 [data-baseweb="textarea"] {
-    /*background-color: white; !* Màu nền trắng -- Already config in .streamlit/config.toml *!*/
-    /*color: black; !* Màu chữ đen - Already config in .streamlit/config.toml *!*/
-    border: 1px solid #ccc !important; /* Viền nhẹ */
-    /*padding: .375rem; !* Tăng kích thước padding *!*/
-    border-radius: .5rem; /* Bo tròn góc */
+    /*border: 1px solid #ccc !important;*/
+    border-radius: .5rem;
 }
