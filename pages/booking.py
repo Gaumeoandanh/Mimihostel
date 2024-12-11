@@ -103,7 +103,7 @@ class BookingModule:
                     ]
 
                     # Append the data to the spreadsheet
-                    # sheet.append_row(data)
+                    sheet.append_row(data)
 
                     # Send confirmation email
                     self.mail_service.send_booking_email(
