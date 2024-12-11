@@ -18,7 +18,6 @@ class MailService:
             mail["To"] = to_email
             mail["Subject"] = subject
             mail.attach(MIMEText(content, "plain"))
-
             # Connect to the SMTP server and send the email
             with smtplib.SMTP("smtp.gmail.com", 587) as server:
                 server.starttls()
@@ -29,7 +28,7 @@ class MailService:
         except Exception as e:
             return {
                 "status": False,
-                "error": e.__str__()
+                "error": str(e)
             }
 
     def send_booking_email(self, to_email, booking_id, name, checkin_date, checkin_time):
@@ -40,15 +39,15 @@ class MailService:
                    Thank you for booking with us. Here are your booking details:
 
                    Booking ID: {booking_id}
-                   Check-In Date: {checkin_date}
-                   Check-In Time: {checkin_time}
+                   Check-In Date: {str(checkin_date)}
+                   Check-In Time: {str(checkin_time)}
 
                    If you have any questions, feel free to contact us.
 
                    Best regards,
                    Cat Boarding Service Team
                    """
-        response = self.sender_email(to_email, subject, content)
+        response = self.send(to_email, subject, content)
         if response["status"]:
             st.success(f"Confirmation email sent to {to_email}!")
             return True

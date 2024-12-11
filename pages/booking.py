@@ -97,21 +97,21 @@ class BookingModule:
                         self.form_data['cat_age'],
                         self.form_data['cat_breed'],
                         self.form_data['room_type'],
-                        self.form_data['checkin_date'],
-                        self.form_data['checkin_time'],
+                        str(self.form_data['checkin_date']),
+                        str(self.form_data['checkin_time']),
                         self.form_data['note'],
                     ]
 
                     # Append the data to the spreadsheet
-                    sheet.append_row(data)
+                    # sheet.append_row(data)
 
                     # Send confirmation email
                     self.mail_service.send_booking_email(
                         self.form_data['email'],
                         booking_id,
                         self.form_data['name'],
-                        self.form_data['checkin_date'],
-                        self.form_data['checkin_time'],
+                        str(self.form_data['checkin_date']),
+                        str(self.form_data['checkin_time']),
                     )
 
                     st.success(f"Your booking has been successfully saved! Booking ID: {booking_id}")
