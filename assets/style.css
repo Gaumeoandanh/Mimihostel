@@ -21,7 +21,7 @@ html, body, [class*="css"], p, a, span, div {
     font-size: 24px
 }
 
-.title .heading {
+.stHeading strong {
     margin: 0 1rem;
     font-weight: bold;
     color: #EFB6C8;
