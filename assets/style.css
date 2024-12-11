@@ -3,7 +3,7 @@ Tớ apply tạm font này nhé,
 https://fonts.google.com/specimen/Sour+Gummy
 */
 @import url('https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap');
-html, body, [class*="css"], p, a, span, div {
+html, body, [class*="css"], p, a, span, div, h1, h2, h3, h4, h5, h6 {
     font-family: "Sour Gummy", serif;
     font-style: normal;
     font-optical-sizing: auto;
