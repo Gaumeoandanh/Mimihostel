@@ -14,6 +14,18 @@ html, body, [class*="css"], p, a, span, div, h1, h2, h3, h4, h5, h6 {
     background-color: transparent
 }
 
+.st-key-banner-top-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.st-key-banner-top-left img {
+    width: auto;
+    height: 2rem;
+    object-fit: cover;
+}
+
 .title {
     display: flex;
     align-items: center;

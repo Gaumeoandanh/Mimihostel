@@ -5,6 +5,9 @@ def main():
     with open("assets/style.css") as css:
         st.markdown(f'<style>{css.read()}</style>', unsafe_allow_html=True)
 
+    with st.container(key='banner-top-left'):
+        st.image('assets/perfect.png', use_container_width=True)
+
     pg = st.navigation([
         st.Page(
             page='pages/home.py',
