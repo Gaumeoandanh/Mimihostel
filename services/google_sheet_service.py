@@ -44,25 +44,56 @@ class GoogleSheetService:
 
     # Find a booking by Booking ID and Name
     def find_booking(self, booking_id, name):
-        # Open the Booking sheet
-        worksheet = self.get_worksheet(st.secrets.connections.gsheets.worksheet)
+        try :
+            # Open the Booking sheet
+            worksheet = self.get_worksheet(st.secrets.connections.gsheets.worksheet)
 
-        # Strip leading and trailing whitespace from the booking ID and name
-        booking_id = booking_id.strip()
-        name = name.strip()
+            # Strip leading and trailing whitespace from the booking ID and name
+            booking_id = booking_id.strip()
+            name = name.strip()
 
-        # Find the first cell that matches the booking ID and name
-        cell = worksheet.find(booking_id)
-        if cell:
-            # Get the row number of the found cell
-            row = cell.row
+            # Find the first cell that matches the booking ID and name
+            cell = worksheet.find(booking_id)
+            if cell:
+                # Get the row number of the found cell
+                row = cell.row
 
-            # Get the values of the entire row
-            record = worksheet.row_values(row)
-            # Create a dictionary from the record
-            record_dict = {header: value for header, value in zip(worksheet.row_values(1), record)}
+                # Get the values of the entire row
+                record = worksheet.row_values(row)
+                # Create a dictionary from the record
+                record_dict = {header: value for header, value in zip(worksheet.row_values(1), record)}
 
-            if record_dict['Your Name'].strip() == name and record_dict['Booking ID'].strip() == booking_id:
-                return record_dict
+                if record_dict['Your Name'].strip() == name and record_dict['Booking ID'].strip() == booking_id:
+                    return record_dict
+        except Exception as e:
+            print(f"Error: {e}")
+
+        return None  # Return None if no match is found
+
+    def cancel_booking(self, booking_id):
+        try :
+            # Open the Booking sheet
+            worksheet = self.get_worksheet(st.secrets.connections.gsheets.worksheet)
+
+            # Strip leading and trailing whitespace from the booking ID and name
+            booking_id = booking_id.strip()
+
+            # Find the first cell that matches the booking ID and name
+            cell = worksheet.find(booking_id)
+            if cell:
+                # Get the row number of the found cell
+                row = cell.row
+
+                # Get the values of the entire row
+                record = worksheet.row_values(row)
+                # Create a dictionary from the record
+                record_dict = {header: value for header, value in zip(worksheet.row_values(1), record)}
+
+                if record_dict['Booking ID'].strip() == booking_id:
+                    return record_dict
+
+                worksheet.delete_row(row)
+        except Exception as e:
+            print(f"Error: {e}")
 
         return None  # Return None if no match is found
