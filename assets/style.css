@@ -18,10 +18,11 @@ html, body, [class*="css"], p, a, span, div, h1, h2, h3, h4, h5, h6 {
     position: fixed;
     top: 0;
     left: 0;
+    padding: 0.25rem;
 }
 
 .st-key-banner-top-left img {
-    width: auto;
+    width: auto !important;
     height: 2rem;
     object-fit: cover;
 }
