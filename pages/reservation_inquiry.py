@@ -35,7 +35,7 @@ class ReservationInquiryModule:
 
             # Inquiry button
             self.inquiry_submitted = st.form_submit_button("Inquiry", use_container_width=True)
-            st.form_submit_button("Cancel", use_container_width=True, on_click=self._confirm_cancel, icon=":material/delete_history:")
+            # st.form_submit_button("Cancel", use_container_width=True, on_click=self._confirm_cancel, icon=":material/delete_history:")
 
         self.result = st.empty()
 
@@ -70,7 +70,9 @@ class ReservationInquiryModule:
     @st.dialog('Are you sure to cancel your booking? 😿')
     def _confirm_cancel(self):
         if st.button("I am confirm"):
-            self.gsheet_service.cancel_booking(self.booking_id)
+            if self.gsheet_service.cancel_booking(self.booking_id):
+                st.rerun()
+                st.success("Your booking has been canceled.")
             # st.rerun()
 
 reservation_inquiry_module = ReservationInquiryModule()

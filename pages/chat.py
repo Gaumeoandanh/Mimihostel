@@ -21,7 +21,7 @@ class ChatModule:
 
     def get_avatar(self, role):
         if role == "assistant":
-            return "🐱"
+            return "assets/assistant.png"
         return None
 
     def _render_ui(self):

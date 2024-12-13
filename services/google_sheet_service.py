@@ -90,9 +90,10 @@ class GoogleSheetService:
                 record_dict = {header: value for header, value in zip(worksheet.row_values(1), record)}
 
                 if record_dict['Booking ID'].strip() == booking_id:
-                    return record_dict
+                    worksheet.delete_row(row)
+                    return True
 
-                worksheet.delete_row(row)
+
         except Exception as e:
             print(f"Error: {e}")
 
