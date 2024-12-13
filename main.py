@@ -33,6 +33,12 @@ def main():
             default=False,
             title="Chat With Me"
         ),
+        st.Page(
+            page='pages/generative.py',
+            url_path="/generative",
+            default=False,
+            title="Generative AI"
+        ),
     ])
     pg.run()
 
