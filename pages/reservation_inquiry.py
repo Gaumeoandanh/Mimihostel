@@ -120,7 +120,7 @@ def main():
 
     # Back Button
     if st.button("Back"):
-        st.switch_page("home")
+        st.switch_page(page='pages/home.py')
 
     # Inquiry Booking Form
     inquiry_booking()
