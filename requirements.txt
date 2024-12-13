@@ -4,5 +4,5 @@ gspread
 oauth2client
 langdetect
 google_trans_new
-python-dotenv
-#
+google-generativeai
+Pillow
