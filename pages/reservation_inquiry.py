@@ -1,79 +1,133 @@
 import streamlit as st
-import pandas as pd
 
 from services.google_sheet_service import GoogleSheetService
 
-class ReservationInquiryModule:
-    """
-    Class for the Reservation Inquiry Module in Mimihostel.
-    """
+# Configuration and Constants
+APP_TITLE = "Reservation Inquiry"
 
-    # Services
-    gsheet_service = GoogleSheetService()
+# Services
+gsheet_service = GoogleSheetService()
 
-    # Variables
-    booking_id = None
-    name = None
-    inquiry_submitted = None
-    inquiry_record = None
+# --- Utility Functions ---
+def alert(message, type="error" or "success"):
+    if type == "success":
+        st.session_state.inquiry_form['alert_success'] = message
+        st.session_state.inquiry_form['alert_error'] = None
+    else:
+        st.session_state.inquiry_form['alert_success'] = None
+        st.session_state.inquiry_form['alert_error'] = message
 
-    def run(self):
-        self._render_ui()
-        self._load_behaviours()
 
-    def _render_ui(self):
-        if st.button("Back"):
-            st.switch_page(page='pages/home.py')
+def reset_inquiry_form():
+    """Resets the inquiry form state."""
+    if "inquiry_form" not in st.session_state:
+        st.session_state.inquiry_form = {
+            "alert_error": None,
+            "alert_success": None,
+            "booking_id": "",
+            "name": "",
+            "inquiry_submitted": False,
+            "inquiry_record": None
+        }
 
-        # Streamlit app for the Inquiry Page
-        st.title("Reservation Inquiry Service", anchor=False)
+def display_booking_details(inquiry_record):
+    """Displays booking details in a table format."""
+    st.table({
+        "Name:": inquiry_record["Your Name"],
+        "Cat's Name": inquiry_record["Cat's Name"],
+        "Room Type": inquiry_record["Select Room Type"],
+        "Check-In Date": inquiry_record["Check-In Date"],
+    })
 
-        # Input form
-        with st.form("inquiry_form"):
-            self.booking_id = st.text_input("Booking ID (*)")
-            self.name = st.text_input("Your Name (*)")
+@st.dialog('Are you sure to cancel your booking? 😿')
+def confirm_cancel():
+    """Handles the cancellation of a booking."""
+    with st.container():
+        if st.button("Cancel"):
+            st.rerun()
 
-            # Inquiry button
-            self.inquiry_submitted = st.form_submit_button("Inquiry", use_container_width=True)
-            # st.form_submit_button("Cancel", use_container_width=True, on_click=self._confirm_cancel, icon=":material/delete_history:")
-
-        self.result = st.empty()
-
-    def _load_behaviours(self):
-        self._submit_form()
-
-    def _submit_form(self):
-         if self.inquiry_submitted:
-            if not self.booking_id or not self.name:
-                st.error("Both Booking ID and Your Name are required!")
-                self.inquiry_record = None
+        if st.button("Yes, cancel my booking"):
+            cancel_status = gsheet_service.cancel_booking(st.session_state.inquiry_form['booking_id'])
+            if cancel_status['status']:
+                alert(cancel_status['message'], "success")
+                st.session_state.inquiry_form['inquiry_record'] = None
             else:
-                # Lookup booking information
-                try:
-                    self.inquiry_record = self.gsheet_service.find_booking(self.booking_id, self.name)
-                    if self.inquiry_record:
-                        # Display the booking details
-                        st.success("Reservation found!")
-                        # Display the table
-                        st.table({
-                            "Name:": self.inquiry_record["Your Name"],
-                            "Cat's Name": self.inquiry_record["Cat's Name"],
-                            "Room Type": self.inquiry_record["Select Room Type"],
-                            "Check-In Date": self.inquiry_record["Check-In Date"],
-                        })
-                    else:
-                        # No matching record
-                        st.error("No reservation matches your given information. Please check again.")
-                except Exception as e:
-                    st.error(f"An error occurred: {e}")
+                alert(cancel_status['error'], "error")
+            st.rerun()  # Restarts the app state
 
-    @st.dialog('Are you sure to cancel your booking? 😿')
-    def _confirm_cancel(self):
-        if st.button("I am confirm"):
-            if self.gsheet_service.cancel_booking(self.booking_id):
-                st.rerun()
-                st.success("Your booking has been canceled.")
-            # st.rerun()
+# --- Components ---
+def inquiry_booking():
+    """Renders the inquiry booking form."""
+    reset_inquiry_form()
 
-reservation_inquiry_module = ReservationInquiryModule()
-reservation_inquiry_module.run()
+    # Input form
+    with st.form("inquiry-form"):
+        st.session_state.inquiry_form['booking_id'] = st.text_input(
+            "Booking ID (*)",
+            value=st.session_state.inquiry_form.get('booking_id', '')
+        )
+        st.session_state.inquiry_form['name'] = st.text_input(
+            "Your Name (*)",
+            value=st.session_state.inquiry_form.get('name', '')
+        )
+        st.session_state.inquiry_form['inquiry_submitted'] = st.form_submit_button("Inquiry", use_container_width=True)
+
+    # Display alert message from session state if present
+    if st.session_state.inquiry_form['alert_success']:
+        st.success(st.session_state.inquiry_form['alert_success'])
+
+    if st.session_state.inquiry_form['alert_error']:
+        st.error(st.session_state.inquiry_form['alert_error'])
+
+    # Display booking details from session state if present
+    if st.session_state.inquiry_form['inquiry_record']:
+        display_booking_details(st.session_state.inquiry_form['inquiry_record'])
+        st.button(
+            label="Cancel",
+            use_container_width=True,
+            on_click=confirm_cancel,
+            icon=":material/delete_history:",
+        )
+
+def process_inquiry():
+    """Processes the booking inquiry."""
+    if not st.session_state.inquiry_form['booking_id'] or not st.session_state.inquiry_form['name']:
+        alert("Both Booking ID and Your Name are required!", "error")
+        return
+    else:
+        # Lookup booking information
+        try:
+            inquiry_record = gsheet_service.find_booking(
+                st.session_state.inquiry_form['booking_id'],
+                st.session_state.inquiry_form['name'],
+            )
+
+            if inquiry_record:
+                st.session_state.inquiry_form['inquiry_record'] = inquiry_record
+                alert("Reservation found!", "success")
+            else:
+                st.session_state.inquiry_form['inquiry_record'] = None
+                alert("No reservation matches your given information. Please check again.", "error")
+        except Exception as e:
+            st.session_state.inquiry_form['inquiry_record'] = None
+            alert(f"An error occurred: {e}", "error")
+        st.rerun()
+
+# --- Main Page ---
+def main():
+    """Main entry point of the app."""
+    st.title(APP_TITLE)
+
+    # Back Button
+    if st.button("Back"):
+        st.switch_page("home")
+
+    # Inquiry Booking Form
+    inquiry_booking()
+
+    # Handle Submission
+    if st.session_state.inquiry_form['inquiry_submitted']:
+        process_inquiry()
+
+if __name__ == "__page__":
+    main()

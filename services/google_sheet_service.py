@@ -89,12 +89,14 @@ class GoogleSheetService:
                 # Create a dictionary from the record
                 record_dict = {header: value for header, value in zip(worksheet.row_values(1), record)}
 
-                if record_dict['Booking ID'].strip() == booking_id:
-                    worksheet.delete_row(row)
-                    return True
+                if record_dict['Booking ID'] == booking_id:
+                    worksheet.delete_rows(row)
+                    return {"status": True, "message": f"Booking with ID {booking_id} has been canceled."}
 
-
+            # If no matching booking ID was found
+            return {"status": False, "error": "Booking ID not found."}
         except Exception as e:
-            print(f"Error: {e}")
-
-        return None  # Return None if no match is found
+            return {
+                "status": False,
+                "error": str(e)
+            }
